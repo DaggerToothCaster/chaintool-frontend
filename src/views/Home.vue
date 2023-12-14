@@ -6,14 +6,16 @@
 				<div>
 					<div>
 						<div>Chaintool -
-							<span><a href="https://github.com/ChainToolDao" target="_blank">{{$t("home.title[0]")}}</a></span>
+							<!-- https://github.com/ChainToolDao -->
+							<span><a href="" target="_blank">{{$t("home.title[0]")}}</a></span>
 							{{$t("home.title[1]")}}
 						</div>
 						{{$t("home.title[2]")}}
 					</div>
 					<div class="summary"> {{$t("home.describe")}}</div>
 					<button class="theFeedback">
-						<a href="https://github.com/ChainToolDao/chaintool-frontend/issues" class="theFeedback" target="_blank">{{$t("home.btnFeedback")}}</a>
+						<!-- https://github.com/ChainToolDao/chaintool-frontend/issues -->
+						<a href="" class="theFeedback" target="_blank">{{$t("home.btnFeedback")}}</a>
 					</button>
 				</div>
 				<img src="../assets/imgs/main.png">
