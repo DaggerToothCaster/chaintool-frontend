@@ -139,6 +139,12 @@ export default {
 					router: '/calldata',
 					url: require('../assets/imgs/toolList11.png'),
 				},
+				{
+					title: "【开发中】交易事件日志解码(EventLog)",
+					detail: "从交易的事件日志中解析出交易的数据详情",
+					router: '/decodeEventLog',
+					url: require('../assets/imgs/toolList11.png'),
+				},
 			]
 		},
 		title() {

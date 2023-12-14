@@ -15,7 +15,7 @@ import CalldataDecode from '../views/CalldataDecode.vue'
 import Faucet from '../views/Faucet.vue'
 import BTCWallet from "../views/generateWallet/BTCWallet.vue"
 import EVMWallet from "../views/generateWallet/EVMWallet.vue"
-
+import DecodeEventLog from "../views/DecodeEventLog.vue"
 Vue.use(Router)
 
 const originalPush = Router.prototype.push
@@ -112,6 +112,11 @@ export default new Router({
             path: '/faucet',
             name: 'Faucet',
             component: Faucet
+        },
+        {
+            path: '/decodeEventLog',
+            name: 'DecodeEventLog',
+            component: DecodeEventLog
         },
         {
             path: '/*',

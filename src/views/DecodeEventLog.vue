@@ -1,0 +1,371 @@
+<template>
+  <div class="transactionData">
+    <Navigation></Navigation>
+    <div class="scroll">
+      <div class="container">
+        <div class="title">【开发中】交易事件日志解码(EventLog)</div>
+        <div class="usingHelp">
+          <span
+            ><a href="" target="_blank"
+              >{{ $t("pubilc.usingHelp") }}
+              <img src="../assets/imgs/explain.png" alt="" /></a
+          ></span>
+        </div>
+        <div class="mainRow">
+          <el-menu class="el-menu-demo" mode="horizontal">
+            <el-menu-item index="deCoding">{{
+              $t("calldata.decoding")
+            }}</el-menu-item>
+            <!-- <el-menu-item index="coding">{{$t("calldata.coding")}}</el-menu-item> -->
+          </el-menu>
+        </div>
+
+        <!-- 解码块 -->
+        <div class="contentSection">
+          <DecodeLog></DecodeLog>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Navigation from "../components/Navigation.vue";
+import DecodeLog from "./calldata/DecodeEventLog.vue";
+export default {
+  name: "transactionData",
+  components: {
+    Navigation,
+    DecodeLog,
+  },
+
+  metaInfo() {
+    return {
+      title: "Chaintool - " + this.title,
+
+      meta: [
+        {
+          name: "keyword",
+          content: "交易事件日志数据(EventLog)解码",
+        },
+      ],
+    };
+  },
+
+  data() {
+    return {
+      // 是解码
+      selectFunction: true,
+    };
+  },
+
+  computed: {
+    title() {
+      return this.$t("title.calldata");
+    },
+  },
+
+  methods: {},
+};
+</script>
+
+<style scoped>
+.transactionData {
+  width: 100%;
+  height: auto;
+  min-height: 94%;
+}
+
+.scroll {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+}
+
+/deep/ .result {
+  width: 100%;
+  margin: 1px 10px;
+  width: 680px;
+  word-wrap: break-word;
+}
+
+.contentSection {
+  width: 100%;
+}
+
+.container {
+  max-width: 768px;
+  height: min-content;
+  padding: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.usingHelp {
+  width: 100%;
+  height: 21px;
+}
+
+.usingHelp span {
+  float: right;
+}
+
+.usingHelp span a {
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: #909399;
+  width: 90px;
+  display: inline-block;
+}
+
+.usingHelp span a:hover {
+  color: #409eff;
+}
+
+.usingHelp span img {
+  margin-bottom: -3px;
+  width: 15px;
+  display: inline-block;
+}
+
+/deep/ .copyButton {
+  width: 15px;
+  height: 15px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/deep/ .container .mainRow {
+  font-size: 14px;
+  color: #000;
+  font-weight: 700;
+  align-self: flex-start;
+  margin-bottom: 10px;
+}
+
+/deep/ .mainRow {
+  margin-bottom: 20px;
+}
+
+.el-menu-demo {
+  margin-bottom: 10px;
+}
+
+.el-textarea {
+  margin-bottom: 20px;
+}
+
+.container .el-input,
+.container .el-textarea {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.container .el-select {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.el-radio {
+  margin: 0 10px;
+}
+
+.container .el-select,
+/deep/ .container .el-input .el-input__inner,
+/deep/ .container .el-textarea .el-textarea__inner {
+  border: none;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+}
+
+/deep/ .container .el-textarea .el-textarea__inner {
+  height: 220px;
+}
+
+.container .list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 6px;
+  border-bottom: 1px solid #e8eaec;
+  margin-bottom: 30px;
+}
+
+.contentButton {
+  margin-left: 41%;
+}
+
+.container .list .header {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  background-color: #f5f5f5;
+  justify-content: space-between;
+  padding: 0 30px;
+  box-sizing: border-box;
+  line-height: 40px;
+  color: #515a6e;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.container .list .header > div:last-child {
+  width: 30%;
+}
+
+.container .list .none {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  justify-content: center;
+  color: #515a6e;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+/deep/ .container .bottomButton {
+  flex-direction: row;
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 15px;
+  width: 96px;
+  height: 36px;
+  line-height: 35px;
+  background-color: #404040;
+  cursor: pointer;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 6px;
+}
+
+/deep/ .container .bottomButton:hover {
+  background-color: #575757;
+}
+
+/deep/ .container .bottomButton:active {
+  background-color: #000;
+}
+
+@media (max-width: 808px) {
+  .container {
+    max-width: calc(100vw - 40px);
+  }
+}
+
+.manualInput {
+  font-size: 1px;
+  color: rgb(0, 151, 182);
+}
+
+.el-table_cell {
+  white-space: pre-wrap;
+}
+
+/deep/ .success-row {
+  background: #efefef;
+}
+
+.analysisResult {
+  width: 721px;
+  height: auto;
+}
+
+.header li {
+  display: inline-block;
+  border: #ebeef5 solid 1px;
+  line-height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #909399;
+  padding-left: 14px;
+}
+
+.header .header-number {
+  width: 151px;
+  height: 48px;
+}
+
+.header .header-parameter {
+  margin-left: -1px;
+  width: 151px;
+  height: 48px;
+}
+
+.header .header-value {
+  margin-left: -1px;
+  width: 421px;
+  height: 48px;
+}
+
+.analysisResult .noData {
+  margin-top: -1px;
+  width: 721px;
+  height: 48px;
+  border: #ebeef5 solid 1px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 15px;
+  color: #909399;
+}
+
+.exhibit li {
+  border: #ebeef5 solid 1px;
+  display: inline-block;
+  color: #909399;
+  margin-top: -1px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #979797;
+  line-height: 48px;
+  padding: 0 10px;
+}
+
+.exhibit .exhibit-number {
+  width: 151px;
+  height: auto;
+}
+
+.exhibit .exhibit-parameter {
+  margin-left: -1px;
+  width: 151px;
+  height: auto;
+}
+
+.exhibit .exhibit-value {
+  margin-left: -1px;
+  width: 421px;
+  height: auto;
+}
+
+.deCoding {
+  width: 100%;
+}
+
+@media (max-width: 590px) {
+  .title span a {
+    top: 35px;
+    left: 45%;
+  }
+}
+</style>

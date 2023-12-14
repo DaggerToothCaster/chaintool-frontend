@@ -104,6 +104,7 @@ export default {
 
         //  解析交易数据    
         async decodingTransactionData(ABIData, sign, funcGetFunctionSignature, funcSubmitFunctionSelector) {
+            console.log("函数解析数据",ABIData, sign, funcGetFunctionSignature, funcSubmitFunctionSelector)
             try {
                 //判断是否存在函数签名，不存在则自动获取函数签名
                 if (sign == undefined || sign == "") {
