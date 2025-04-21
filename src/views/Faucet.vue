@@ -1,4 +1,5 @@
 <template>
+<!-- 测试网水龙头 -->
 	<div class="faucet">
 		<Navigation></Navigation>
 		<div class="main">

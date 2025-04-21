@@ -1,30 +1,55 @@
 <template>
   <div>
-    <div class="mainRow">事件Logs</div>
+    <div class="mainRow">事件Data</div>
     <el-input
       class="funInput"
-      v-model="codingSelector"
-      :placeholder="$t('calldata.inputFunction')"
+      v-model="inputData"
+      :placeholder="$t('calldata.inputData')"
       type="textarea"
     ></el-input>
+    <div class="mainRow">事件Topics</div>
+    <el-input
+      class="funInput"
+      v-model="inputTopic"
+      :placeholder="$t('calldata.inputTopic')"
+      type="textarea"
+    ></el-input>
+
     <div class="mainRow">事件函数</div>
     <el-input
       v-model="codingParameter"
       :placeholder="$t('calldata.inputParameterPrompt')"
       type="textarea"
+      autosize
     ></el-input>
+
     <h5 class="result">
-      {{ encodingResult
-      }}<img
+      {{ encodingResult }}
+
+      <!-- 暂时隐藏复制按钮 -->
+      <!-- <img
         class="copyButton"
         v-if="canCopy"
         src="../../assets/imgs/copy.png"
         @click="copy(encodingResult)"
-      />
+      /> -->
     </h5>
+
     <div class="bottomButton" @click="decoding()">
       {{ $t("calldata.coding") }}
     </div>
+    <!-- 解析结果 -->
+    <div class="mainRow">{{ $t("calldata.decodingResult") }}</div>
+    <el-table :data="decodingResult">
+      <el-table-column prop="name" :label="'Name'" width="80">
+      </el-table-column>
+      <el-table-column prop="type" :label="'Type'" width="80">
+      </el-table-column>
+      <el-table-column prop="indexed" :label="'Indexed'" width="80">
+      </el-table-column>
+      <el-table-column prop="val" :label="'Value'" width="450">
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -34,85 +59,84 @@ import Clipboard from "clipboard";
 export default {
   data() {
     return {
-      // 编码函数
-      codingSelector: `
-{
-    address: '0x467802A149906B164dBce4aAd5C682D866798Be9',
-    topics: [
-        '0xe03e26bc06735b33186170442e98c885221cc5572e961ea41b0a7def12cfdf97',
-        '0x000000000000000000000000ff22c73a87f5fd26200165c9f02854637192a941',
-        '0x000000000000000000000000f73d8f5bfb7f03b0af375b1b5cf6581c367890e8'
-    ],
-    data: '0x000000000000000000000000000000000000000000000000000000000000006100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000de0b6b3a7640000000000000000000000000000000000000000000000000000016345785d8a00000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000001420948400e68434010cfcfc978b66cfa656629d9b000000000000000000000000',
-    blockNumber: 421163,
-    transactionHash: '0xdfd0ee27c5d40ac9962e3b26442600d8910dd6eb99863e2de60f435ef66184f2',
-    transactionIndex: 0,
-    blockHash: '0xe7ca0bedc5815f9b8cff81759d688f5d9c7b02384b8c6a05f64aa14e49d6c23d',
-    logIndex: 2,
-    removed: false,
-    id: 'log_87f43315'
-}`,
-      // 编码参数
-      codingParameter: `[{
-    "anonymous": false,
-    "inputs": [
-        {
-            "internalType": "address",
-            "name": "sender",
-            "type": "address"
-        },
-        {
-            "internalType": "bytes",
-            "name": "sig",
-            "type": "bytes"
-        },
-    ],
-    "name": "NewSender",
-    "type": "event"
-}]`,
+      inputData:
+        "0x00000000000000000000000042d99c326bbc8aed650baeb20e638c6dfcb0e0860000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000006423b872dd000000000000000000000000f73d8f5bfb7f03b0af375b1b5cf6581c367890e8000000000000000000000000a9617b1aa0316b5b29056cc4dd645e6e9120c1000000000000000000000000000000000000000000000000000de0b6b3a764000000000000000000000000000000000000000000000000000000000000",
+      inputTopic: [
+        "0x327f46e39a6c37954baf42da546bba2aae907719613a083657640cdc53654d46",
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+        "0x0000000000000000000000008ba1f109551bd432803012645ac136ddd64dba72",
+        "0x000000000000000000000000ab7c8803962c0f2f5bbbe3fa8bf41cd82aa1923c",
+      ],
+
+      // 事件签名
+      codingParameter: `event NewSender(address sender,bytes sig);`,
+
       // 编码结果
       encodingResult: "",
       // 可以复制
       canCopy: false,
+      decodingResult: [],
     };
   },
 
   methods: {
+    //增加表格样式
+    increaseTableStyle({ row, rowIndex }) {
+      if (String(JSON.parse(JSON.stringify(row.id))).indexOf("[var") == "-1") {
+        return "success-row";
+      }
+      return "";
+    },
     //解码
-    async coding() {
+    async decoding() {
       //清空上次编码的数据
       this.encodingResult = "";
       try {
-        
-        const iface = new ethers.utils.Interface([codingSelector]);
-        codingSelector = codingSelector.slice(8).replace(/^\s*/g, "");
-        this.encodingResult = iface.encodeFunctionData(
-          codingSelector,
-          processingParameters
-        );
-        //把通过编码的数据加入数据库
-        this.functionSelector.submitFunctionSelector(
-          codingSelector,
-          this.encodingResult.substring(0, 10)
-        );
+        console.log("开始解析");
+        const iface = new ethers.utils.Interface([this.codingParameter]);
+        const decode = iface.parseLog({
+          data: JSON.parse(JSON.stringify(this.inputData)),
+          topics: JSON.parse(JSON.stringify(this.inputTopic)),
+        });
+        console.log("解析结果", decode);
+        //格式化输出结果
+
+        let dataArr = [];
+        for (let i = 0; i < decode.args.length; i++) {
+          let ele = decode.eventFragment.inputs[i];
+
+          dataArr.push({
+            name: ele.name,
+            type: ele.type,
+            indexed: ele.indexed + "",
+            val: decode.args[i],
+          });
+        }
+        this.encodingResult = dataArr;
+        this.decodingResult = dataArr;
         this.canCopy = true;
+        return;
       } catch (error) {
+        console.log("error", error);
         this.encodingResult = this.$t("calldata.inputError");
       }
     },
 
     //调用复制的方法
     copy(text) {
+      console.log("开始复制");
       const clipboard = new Clipboard(".result", {
         text: () => {
           return text;
         },
       });
       clipboard.on("success", () => {
+        console.log("复制成功");
         this.$message.success(this.$t("pubilc.copySauccessfully"));
         clipboard.destroy();
       });
       clipboard.on("error", () => {
+        console.log("复制失败");
         this.$message.error(this.$t("pubilc.copyFailed"));
         clipboard.destroy();
       });

@@ -1,9 +1,10 @@
 <template>
+  <!-- 私钥sign签名 -->
   <div class="transactionData">
     <Navigation></Navigation>
     <div class="scroll">
       <div class="container">
-        <div class="title">交易事件日志解码(EventLog)</div>
+        <div class="title">{{ "私钥对数据签名/解码地址" }}</div>
         <div class="usingHelp">
           <span
             ><a href="" target="_blank"
@@ -12,17 +13,21 @@
           ></span>
         </div>
         <div class="mainRow">
-          <el-menu class="el-menu-demo" mode="horizontal">
-            <el-menu-item index="deCoding">{{
-              $t("calldata.decoding")
-            }}</el-menu-item>
-            <!-- <el-menu-item index="coding">{{$t("calldata.coding")}}</el-menu-item> -->
+          <el-menu
+            :default-active="preferredPage"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="cutoverTop"
+          >
+            <el-menu-item index="coding">{{ "数据签名" }}</el-menu-item>
+            <el-menu-item index="deCoding">{{ "解码签名地址" }}</el-menu-item>
           </el-menu>
         </div>
-
-        <!-- 解码块 -->
-        <div class="contentSection">
-          <DecodeLog></DecodeLog>
+        <div v-if="selectFunction" class="deCoding">
+          <DeCoding></DeCoding>
+        </div>
+        <div v-if="!selectFunction" class="contentSection">
+          <Coding></Coding>
         </div>
       </div>
     </div>
@@ -31,12 +36,14 @@
 
 <script>
 import Navigation from "../components/Navigation.vue";
-import DecodeLog from "./calldata/DecodeEventLog.vue";
+import Coding from "./sign/Coding.vue";
+import DeCoding from "./sign/DeCoding.vue";
 export default {
   name: "transactionData",
   components: {
     Navigation,
-    DecodeLog,
+    Coding,
+    DeCoding,
   },
 
   metaInfo() {
@@ -46,7 +53,7 @@ export default {
       meta: [
         {
           name: "keyword",
-          content: "交易事件日志数据(EventLog)解码",
+          content: "私钥对数据签名及解码地址",
         },
       ],
     };
@@ -54,6 +61,8 @@ export default {
 
   data() {
     return {
+      // 首选页面
+      preferredPage: "deCoding",
       // 是解码
       selectFunction: true,
     };
@@ -65,7 +74,16 @@ export default {
     },
   },
 
-  methods: {},
+  methods: {
+    // 切换编码和解码
+    cutoverTop(key) {
+      if (key == "deCoding") {
+        this.selectFunction = true;
+      } else {
+        this.selectFunction = false;
+      }
+    },
+  },
 };
 </script>
 

@@ -140,9 +140,15 @@ export default {
 					url: require('../assets/imgs/toolList11.png'),
 				},
 				{
-					title: "【开发中】交易事件日志解码(EventLog)",
+					title: "交易事件日志解码(EventLog)",
 					detail: "从交易的事件日志中解析出交易的数据详情",
 					router: '/decodeEventLog',
+					url: require('../assets/imgs/toolList11.png'),
+				},
+				{
+					title: "私钥对数据签名及解码签名地址",
+					detail: "使用钱包私钥对指定数据签名和解签出签名的公钥地址",
+					router: '/addressSign',
 					url: require('../assets/imgs/toolList11.png'),
 				},
 			]

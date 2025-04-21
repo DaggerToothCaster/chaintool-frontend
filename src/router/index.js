@@ -16,6 +16,11 @@ import Faucet from '../views/Faucet.vue'
 import BTCWallet from "../views/generateWallet/BTCWallet.vue"
 import EVMWallet from "../views/generateWallet/EVMWallet.vue"
 import DecodeEventLog from "../views/DecodeEventLog.vue"
+import AddressSign from "../views/AddressSign.vue";
+
+
+
+import ZOOMquery from '../views/ZoomQuery.vue'
 Vue.use(Router)
 
 const originalPush = Router.prototype.push
@@ -26,8 +31,7 @@ Router.prototype.push = function push(location) {
 
 export default new Router({
     mode: 'history',
-    routes: [
-        {
+    routes: [{
             path: '/',
             name: 'Home',
             component: Home
@@ -76,20 +80,19 @@ export default new Router({
             path: '/generateWallet',
             name: 'GenerateWallet',
             component: GenerateWallet,
-            children:[
-                {
-                    path:'',
-                    redirect:'evmWallet'
+            children: [{
+                    path: '',
+                    redirect: 'evmWallet'
                 },
                 {
-                    path:'evmWallet',
-                    name:'evmWallet',
-                    component:EVMWallet
+                    path: 'evmWallet',
+                    name: 'evmWallet',
+                    component: EVMWallet
                 },
                 {
-                    path:'btcWallet',
-                    name:'btcWallet',
-                    component:BTCWallet
+                    path: 'btcWallet',
+                    name: 'btcWallet',
+                    component: BTCWallet
                 }
             ]
         },
@@ -117,6 +120,16 @@ export default new Router({
             path: '/decodeEventLog',
             name: 'DecodeEventLog',
             component: DecodeEventLog
+        },
+        {
+            path: '/zoomQuery',
+            name: 'ZOOMquery',
+            component: ZOOMquery
+        },
+        {
+            path: '/addressSign',
+            name: 'AddressSign',
+            component: AddressSign
         },
         {
             path: '/*',
